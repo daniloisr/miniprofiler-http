@@ -1,0 +1,41 @@
+{
+  "name": "miniprofiler-http",
+  "version": "0.0.1",
+  "description": "A http(s) provider for miniprofiler timing analysis",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "mocha tests/ -c",
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- tests/ -R spec",
+    "check-coverage": "istanbul check-coverage --statements 95 --branches 95 --functions 95 --lines 95",
+    "update-coveralls": "cat coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/goenning/miniprofiler-http.git"
+  },
+  "bugs": {
+    "url": "http://github.com/goenning/miniprofiler-http/issues"
+  },
+  "author": "Guilherme Oenning <oenning.ti@gmail.com> (http://goenning.net/)",
+  "license": "Apache-2.0",
+  "readmeFilename": "README.md",
+  "tags": [
+    "profiler",
+    "performance",
+    "profiling",
+    "timing",
+    "http",
+    "https",
+    "request"
+  ],
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.9",
+    "eslint": "^2.11.0",
+    "istanbul": "^0.4.3",
+    "miniprofiler": "^0.2.0",
+    "mocha": "^2.5.3",
+    "request": "^2.72.0"
+  }
+}
