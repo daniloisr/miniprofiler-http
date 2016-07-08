@@ -1,8 +1,8 @@
 'use strict';
 
-let http = require('http');
+const http = require('http');
 
-let server = http.createServer((req, res) => {
+const server = http.createServer((req, res) => {
   res.end('It Works!');
 });
 

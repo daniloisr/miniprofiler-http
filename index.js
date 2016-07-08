@@ -2,10 +2,10 @@
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
-let http = require('http');
-let url = require('url');
+const http = require('http');
+const url = require('url');
 
-let httpRequest = http.request;
+const httpRequest = http.request;
 
 module.exports = function() {
   return {
@@ -16,8 +16,8 @@ module.exports = function() {
           return httpRequest.call(http, options, callback);
         }
 
-        let query = `${options.method} ${url.format(options.uri)}`;
-        let timing = req.miniprofiler.startTimeQuery('http', query);
+        const query = `${options.method} ${url.format(options.uri)}`;
+        const timing = req.miniprofiler.startTimeQuery('http', query);
 
         function wrappedCallback(res) {
           res.on('end', function stopTiming() {
