@@ -12,7 +12,7 @@ module.exports = function() {
     name: 'http',
     handler: function(req, res, next) {
       http.request = !req.miniprofiler || !req.miniprofiler.enabled ? httpRequest : function(options, callback) {
-        if (!req.miniprofiler) {
+        if (!req.miniprofiler || !options.uri) {
           return httpRequest.call(http, options, callback);
         }
 
