@@ -20,19 +20,19 @@ const server = http.createServer((req, res) => {
     require('../index.js')().handler(req, res, () => {
       for(const protocol in endpoints) {
         if (req.url == `/${protocol}/send-get`) {
-          request(`${endpoints[protocol]}/api/ping`, function(error, response, body) {
+          request({ uri: `${endpoints[protocol]}/api/ping`, strictSSL: false }, function(error, response, body) {
             res.end(body);
           });
         }
 
         if (req.url == `/${protocol}/send-post`) {
-          request.post(`${endpoints[protocol]}/api/ping`, function(error, response, body) {
+          request.post({ uri: `${endpoints[protocol]}/api/ping`, strictSSL: false }, function(error, response, body) {
             res.end(body);
           });
         }
 
         if (req.url == `/unprofiled/${protocol}/send-get`) {
-          request(`${endpoints[protocol]}/api/ping`, function(error, response, body) {
+          request({ uri: `${endpoints[protocol]}/api/ping`, strictSSL: false }, function(error, response, body) {
             res.end(body);
           });
         }

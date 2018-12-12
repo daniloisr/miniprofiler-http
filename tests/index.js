@@ -63,26 +63,18 @@ describe('HTTP / HTTPS Tests', function() {
       });
     });
 
-    it(`[${protocol}] should not break http requests to unprofiled routes`, function(done) {
-      request(`http://localhost:8080/unprofiled/${protocol}/send-get`, (err, response, body) => {
-        expect(response.headers).to.not.include.keys('x-miniprofiler-ids');
-        expect(body).to.be.equal('It Works!');
-        done();
-      });
-    });
-
-    it(`[${protocol}] should not break http requests to unprofiled routes`, function(done) {
-      request(`http://localhost:8080/unprofiled/${protocol}/send-get`, (err, response, body) => {
-        expect(response.headers).to.not.include.keys('x-miniprofiler-ids');
-        expect(body).to.be.equal('It Works!');
-        done();
-      });
-    });
-
-    it(`[${protocol}] should not skip requests with errors`, function(done) {
+    it(`[${protocol}] should profile requests with errors`, function(done) {
       request(`http://localhost:8080/${protocol}/broken`, (err, response, body) => {
         expect(response.headers).to.include.keys('x-miniprofiler-ids');
         expect(body).to.be.equal('Error');
+        done();
+      });
+    });
+
+    it(`[${protocol}] should not break http requests to unprofiled routes`, function(done) {
+      request(`http://localhost:8080/unprofiled/${protocol}/send-get`, (err, response, body) => {
+        expect(response.headers).to.not.include.keys('x-miniprofiler-ids');
+        expect(body).to.be.equal('It Works!');
         done();
       });
     });
