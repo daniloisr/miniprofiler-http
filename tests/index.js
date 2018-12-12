@@ -79,5 +79,12 @@ describe('HTTP / HTTPS Tests', function() {
       });
     });
 
+    it(`[${protocol}] should not skip requests with errors`, function(done) {
+      request(`http://localhost:8080/${protocol}/broken`, (err, response, body) => {
+        expect(response.headers).to.include.keys('x-miniprofiler-ids');
+        expect(body).to.be.equal('Error');
+        done();
+      });
+    });
   }
 });

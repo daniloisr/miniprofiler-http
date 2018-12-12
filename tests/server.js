@@ -18,9 +18,7 @@ const app = miniprofiler.express({
 const server = http.createServer((req, res) => {
   app(req, res, () => {
     require('../index.js')().handler(req, res, () => {
-
       for(const protocol in endpoints) {
-
         if (req.url == `/${protocol}/send-get`) {
           request(`${endpoints[protocol]}/api/ping`, function(error, response, body) {
             res.end(body);
@@ -39,8 +37,13 @@ const server = http.createServer((req, res) => {
           });
         }
 
+        if (req.url == `/${protocol}/broken`) {
+          // Use an invalid port to trigger an http error
+          request('http://localhost:9', function(error, response, body) {
+            res.end('Error');
+          });
+        }
       }
-
     });
   });
 });

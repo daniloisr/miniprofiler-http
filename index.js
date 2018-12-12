@@ -29,7 +29,10 @@ module.exports = function() {
             callback.apply(null, arguments);
         }
 
-        return httpRequest.call(http, options, wrappedCallback);
+        const request = httpRequest.call(http, options, wrappedCallback);
+        request.on('error', () => req.miniprofiler.stopTimeQuery(timing));
+
+        return request;
       };
 
       next();
