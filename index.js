@@ -10,18 +10,18 @@ const httpsRequest = https.request;
 module.exports = function() {
   return {
     name: 'http',
-    handler: function(req, res, next) {
-      http.request = !req.miniprofiler || !req.miniprofiler.enabled ? httpRequest : function(options, callback) {
-        if (!req.miniprofiler || !options.uri) {
+    handler: function(asyncContext, next) {
+      http.request = !asyncContext.get() || !asyncContext.get().enabled ? httpRequest : function(options, callback) {
+        if (!asyncContext.get() || !options.uri) {
           return httpRequest.call(http, options, callback);
         }
 
         const query = `${options.method} ${url.format(options.uri)}`;
-        const timing = req.miniprofiler.startTimeQuery('http', query);
+        const timing = asyncContext.get().startTimeQuery('http', query);
 
         function wrappedCallback(res) {
           res.on('end', function stopTiming() {
-            req.miniprofiler.stopTimeQuery(timing);
+            asyncContext.get().stopTimeQuery(timing);
             res.removeListener('end', stopTiming);
           });
 
@@ -30,23 +30,23 @@ module.exports = function() {
         }
 
         const request = httpRequest.call(http, options, wrappedCallback);
-        request.on('error', () => req.miniprofiler.stopTimeQuery(timing));
+        request.on('error', () => asyncContext.get().stopTimeQuery(timing));
 
         return request;
       };
 
       if (Number(process.versions.node.split('.')[0]) >= 11) {
-        https.request = !req.miniprofiler || !req.miniprofiler.enabled ? httpsRequest : function(options, callback) {
-          if (!req.miniprofiler || !options.uri) {
+        https.request = !asyncContext.get() || !asyncContext.get().enabled ? httpsRequest : function(options, callback) {
+          if (!asyncContext.get() || !options.uri) {
             return httpsRequest.call(http, options, callback);
           }
 
           const query = `${options.method} ${url.format(options.uri)}`;
-          const timing = req.miniprofiler.startTimeQuery('http', query);
+          const timing = asyncContext.get().startTimeQuery('http', query);
 
           function wrappedCallback(res) {
             res.on('end', function stopTiming() {
-              req.miniprofiler.stopTimeQuery(timing);
+              asyncContext.get().stopTimeQuery(timing);
               res.removeListener('end', stopTiming);
             });
 
@@ -55,7 +55,7 @@ module.exports = function() {
           }
 
           const request = httpsRequest.call(http, options, wrappedCallback);
-          request.on('error', () => req.miniprofiler.stopTimeQuery(timing));
+          request.on('error', () => asyncContext.get().stopTimeQuery(timing));
 
           return request;
         };

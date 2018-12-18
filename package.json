@@ -1,6 +1,6 @@
 {
-  "name": "miniprofiler-http",
-  "version": "1.0.2",
+  "name": "@daniloisr/miniprofiler-http",
+  "version": "2.0.0",
   "description": "A http(s) provider for miniprofiler timing analysis",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "coveralls": "^2.11.9",
     "eslint": "^3.0.1",
     "istanbul": "^0.4.4",
-    "miniprofiler": "^1.2.0",
+    "@daniloisr/miniprofiler": "^3.0.0",
     "mocha": "^2.5.3",
     "request": "^2.72.0"
   }
